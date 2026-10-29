@@ -21,6 +21,10 @@ img {
   object-fit: cover;
 }
 
+.logo {
+  width: 10px;
+}
+
 h1 {
   color: var(--dark);
   font-size: clamp(6rem, 12vw, 14rem);
@@ -59,7 +63,7 @@ nav {
 }
 
 .nav-item img {
-  width: 10rem;
+  width: 4rem;
   object-fit: contain;
   transform: translateY(100%);
   will-change: transform;

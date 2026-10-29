@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   splitText(
-    '.nav-item:not(:nth-child(2)) a, .hero-copy > p fotter p',
-    'lines',
+    '.nav-item:not(:nth-child(2)) a, .hero-copy > p, footer p',
+    'words',
     'line',
   );
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   tl.to('.marqee-track h1', { ...revealProps }, '<0.65');
   tl.to('nav .line, nav img', { ...revealProps, stagger: 0.1 }, '<0.125');
-  tl.to('.hero-copy > p', { ...revealProps, stagger: 0.1 }, '<0.125');
+  tl.to('.hero-copy > p .line', { ...revealProps, stagger: 0.1 }, '<0.125');
   tl.to('.hero-callout p', { ...revealProps, opacity: 1 }, '<0.125');
   tl.to('footer .line', { ...revealProps }, '<0.125');
 });
