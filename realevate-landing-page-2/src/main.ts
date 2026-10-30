@@ -60,19 +60,37 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.delayedCall(2.5, () => animateCounterTo(68));
   gsap.delayedCall(3.25, () => animateCounterTo(99));
 
-  const marqeeTrack = document.querySelector('.marqee-track');
-  const marqeeItemWidth = marqeeTrack?.querySelector('h1')?.offsetWidth;
+  const marqeeTrack = document.querySelector<HTMLElement>('.marqee-track');
+  let marqeeTween: gsap.core.Tween | null = null;
 
-  console.log({
-    marqeeTrack,
-    marqeeItemWidth,
-  });
+  const startMarqee = () => {
+    const marqeeItem = marqeeTrack?.querySelector('h1');
+    if (!marqeeTrack || !marqeeItem) return;
 
-  gsap.to(marqeeTrack, {
-    x: -(marqeeItemWidth ?? 0),
-    duration: 7.5,
-    ease: 'none',
-    repeat: -1,
+    // Subpixel-accurate: offsetWidth rounds, which desyncs the loop each cycle.
+    const marqeeItemWidth = marqeeItem.getBoundingClientRect().width;
+
+    marqeeTween?.kill();
+    gsap.set(marqeeTrack, { x: 0 });
+
+    marqeeTween = gsap.to(marqeeTrack, {
+      x: -marqeeItemWidth,
+      duration: 7.5,
+      ease: 'none',
+      repeat: -1,
+      modifiers: {
+        x: gsap.utils.unitize(gsap.utils.wrap(-marqeeItemWidth, 0), 'px'),
+      },
+    });
+  };
+
+  // Measure once the webfont has swapped in, or the width is fallback metrics.
+  document.fonts.ready.then(startMarqee);
+
+  let marqeeResizeTimer: number;
+  window.addEventListener('resize', () => {
+    clearTimeout(marqeeResizeTimer);
+    marqeeResizeTimer = setTimeout(startMarqee, 150);
   });
 
   const tl = gsap.timeline({ delay: 0.5 });
