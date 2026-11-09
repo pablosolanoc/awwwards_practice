@@ -44,7 +44,7 @@ for (let i = 0; i < slideCount; i++) {
   slidesContainer?.appendChild(slide);
 }
 
-const slides = document.querySelectorAll('.slide');
+const slides = document.querySelectorAll<HTMLDivElement>('.slide');
 
 let currentPosition = 0;
 let targetPosition = 0;
@@ -57,13 +57,13 @@ const wrapOffset = gsap.utils.wrap(
 
 const wrapImageIndex = gsap.utils.wrap(0, config.imageCount);
 
-function updateSlideImage(slide, position: number) {
+function updateSlideImage(slide: HTMLDivElement, position: number) {
   const imageIndex = wrapImageIndex(Math.round(position));
 
   if (slide.dataset.image === String(imageIndex)) return;
 
-  slide.dataset.image = imageIndex;
-  slide.querySelector('img').src = `${imagesRoutes[imageIndex]}`;
+  slide.dataset.image = `${imageIndex}`;
+  slide.querySelector('img')!.src = `${imagesRoutes[imageIndex]}`;
 }
 
 function getSlideZIndex(offset: number) {
@@ -90,9 +90,9 @@ function getSlideOpacity(offset: number) {
 }
 
 function renderSlides() {
-  slides.forEach((slide: Element, index) => {
+  slides.forEach((slide: HTMLDivElement, index: number) => {
     const offset = wrapOffset(index - currentPosition);
-    console.log({ offset });
+
     const distance = Math.abs(offset);
 
     const blur = distance * config.blurStep;
@@ -129,7 +129,7 @@ function snapToSlide() {
   targetPosition =
     distanceMoved < config.swapThreshold
       ? outgoingPosition
-      : outgoingPosition * scrollDirection;
+      : outgoingPosition + scrollDirection;
 }
 
 function moveSlider(amount: number) {
@@ -180,10 +180,6 @@ gsap.ticker.add(() => {
   if (Math.abs(targetPosition - currentPosition) < 0.001) {
     currentPosition = targetPosition;
   }
-
-  console.log({ currentPosition, targetPosition });
-
-  console.log('hey');
 
   renderSlides();
 });
