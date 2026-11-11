@@ -1,0 +1,58 @@
+:root {
+  --bg: #110f21;
+
+  --field:
+    radial-gradient(75% 65% at 0% 20%, #110f21 35%, transparent),
+    linear-gradient(
+      180deg,
+      #110f21 12%,
+      rgba(17, 15, 33, 0.65) 35%,
+      transparent 65%
+    ),
+    radial-gradient(
+      80% 45% at 90% 40%,
+      rgba(0, 160, 150, 0.95),
+      rgba(0, 88, 160, 0.95),
+      transparent
+    ),
+    linear-gradient(110deg, #6a0b52, #ea0950 62%, #f78a05);
+}
+
+section {
+  width: 100svw;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+}
+
+.curtain {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  background: var(--bg); /* shows in the gaps when strips turn */
+  perspective: 900px;
+}
+
+.sheet {
+  height: 100%;
+
+  flex: 0 0 var(--stripe, 20px);
+
+  /* box-shadow: 0.3rem 0 0.8rem black; */
+
+  position: relative;
+  background: var(--field);
+  background-size: var(--w) var(--h);
+  background-position: var(--x) 0;
+  transform-origin: 50% 50%;
+  box-shadow: calc(var(--stripe) / 10) 0px 10px black;
+  will-change: transform;
+}
