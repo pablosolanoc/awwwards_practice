@@ -1,0 +1,98 @@
+:root {
+  --bg: #110f21;
+
+  --stripe: 24px;
+
+  --field:
+    radial-gradient(75% 65% at 0% 20%, var(--bg) 35%, rgba(17, 15, 33, 0) 100%),
+    linear-gradient(
+      180deg,
+      var(--bg) 12%,
+      rgba(17, 15, 33, 0.65) 45%,
+      rgba(17, 15, 33, 0) 95%
+    ),
+    radial-gradient(
+      40% 55% at 100% 50%,
+      rgba(0, 160, 150, 0.95),
+      rgba(0, 90, 140, 0.5) 55%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    radial-gradient(
+      55% 45% at 55% 58%,
+      rgba(45, 30, 95, 0.85),
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(
+      90deg,
+      #6a0b52 0%,
+      #b8064f 30%,
+      #d90a4c 52%,
+      #ec4a35 72%,
+      #f7900f 100%
+    );
+}
+
+section {
+  width: 100svw;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #110f21;
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+}
+
+.curtain {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  background: var(--bg); /* shows in the gaps when strips turn */
+  perspective: 900px;
+}
+
+.sheet {
+  /* background-color: transparent; */
+  /* width: 100%;  */
+  height: 100%;
+
+  position: relative;
+  flex: 0 0 var(--stripe);
+  height: 100%;
+  background: var(--field);
+  background-size: var(--w) var(--h);
+  background-position: var(--x) 0;
+  transform-origin: 50% 50%; /* rotates around its own vertical center line */
+  will-change: transform;
+}
+
+/* Ridge shading */
+.sheet::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(17, 15, 33, 0.6),
+    rgba(17, 15, 33, 0) 70%
+  );
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Turn shading: the more a strip faces sideways, the darker it gets */
+.sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--bg);
+  opacity: var(--shade, 0);
+}
